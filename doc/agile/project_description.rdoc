@@ -1,0 +1,20 @@
+-----------------------------------------------
+| Lineman Project -- Overview                 |
+| Created By: Ronald Chaplin <t73net@t73.biz> |
+| Created On: Wed 23 Dec 2009 11:35:09 PM EST |
+-----------------------------------------------
+
+The lineman project is designed and modeled after the CakePhp Bake system.
+However, this is not to say that Bake is perfect. It has it's limitations and
+flaws as well. It's also meant to be an improvement to the current
+Rails::TemplateRunner app generator. It will be 100% customizable and is meant
+to simply assist in building new Rails apps, to the point of the first BDD
+being written.
+
+It will first be focusing on a set core of idioms used commonly in the Rails
+community, such as the "bort.rb template" as can be found on github, and then
+eventually expanding to include functionality for other extensions/gems/plugins
+that the rails/ruby community has to offer.
+
+Please view the must_have_features , user_stories, milestones, and release files
+to gain a better overview of goals for this project.

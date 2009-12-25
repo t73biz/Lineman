@@ -1,0 +1,22 @@
+-----------------------------------------------
+| Lineman Project -- User Stories             |
+| Created By: Ronald Chaplin <t73net@t73.biz> |
+| Created On: Wed 23 Dec 2009 11:35:09 PM EST |
+-----------------------------------------------
+
+A user opens the console program, starts Lineman from the command line, and
+begins to use Lineman.
+
+When Lineman loads, it shows a splash screen, a short intro, and a menu list of
+available operations.
+
+When a use selects one of the choices, the appropriate subsection is ran unless
+the user chose to quit.
+
+When a user completes a subsection of choices, Lineman displays an overview of
+the choices the user has made, asks for confirmation, and saves these choices in
+a file for use later in the system. The user will then be returned to the main
+menu.
+
+When a user is ready to create their rails project, Lineman can create this for
+them or allow them to run it themselves.

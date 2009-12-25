@@ -1,0 +1,9 @@
+Welcome: 'Welcome to Lineman'
+Menu:
+  Select: 'Select from the menu'
+  D: 'D)atabase'
+  G: 'G)ems'
+  M: 'M)VC'
+  P: 'P)lugins'
+  Q: 'Q)uit'
+  

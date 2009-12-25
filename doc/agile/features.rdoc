@@ -1,0 +1,23 @@
+-----------------------------------------------
+| Lineman Project -- Must Have Features       |
+| Created By: Ronald Chaplin <t73net@t73.biz> |
+| Created On: Wed 23 Dec 2009 11:35:09 PM EST |
+-----------------------------------------------
+
+== Must ==
+ * Mimic the CakePHP Bake System
+ * Extend The Rails Module System
+ * Be Behaviour Driven Devloped with Rspec/Cucumber
+ * Be Interactive
+ * Be Configurable/Changeable
+ * Be UI Friendly
+ * Be Loggable
+ * Autoconfig Plugins/Gems
+ * Multi Arg Cmd Line
+ * Be saveable 
+
+== Could Possibly ==
+ * Use ncurses/tcl/gtk/qt4 for future UI
+ * Become a gem
+ * Use sessions
+ * Track Dependancies for ALL Plugins/Gems

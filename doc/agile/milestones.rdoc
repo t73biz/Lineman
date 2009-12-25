@@ -1,0 +1,14 @@
+-----------------------------------------------
+| Lineman Project -- Milestones               |
+| Created By: Ronald Chaplin <t73net@t73.biz> |
+| Created On: Wed 23 Dec 2009 11:35:09 PM EST |
+-----------------------------------------------
+
+1.0
+  * Create intial framework for Lineman
+  * Allow menu interaction for user
+  * Incorporate UI Design during BDD
+  * Develop using BDD
+  
+1.01
+  * 
