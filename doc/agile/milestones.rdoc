@@ -11,4 +11,5 @@
   * Develop using BDD
   
 1.01
-  * 
+  * Develop framework for commandline arguments and their parsing
+
