@@ -1,6 +1,6 @@
 Welcome: 'Welcome to Lineman'
+Select: 'Select from the menu'
 Menu:
-  Select: 'Select from the menu'
   D: 'D)atabase'
   G: 'G)ems'
   M: 'M)VC'
