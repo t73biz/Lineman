@@ -5,14 +5,14 @@ require 'yaml'
 
 module Lineman
   class Core
-    def initialize(messenger)
-      @messenger = messenger
-      @comm = CommHelper.new
+    def initialize(sender)
+      @sender = sender
+      @comm = CommHelper.new(@sender)
     end
     
     def start
-      @messenger.puts @comm.send("welcome")
-      @messenger.puts @comm.send("menu")
+      @comm.send("Welcome")
+      @comm.send("Main Menu")
     end
   end
 end

@@ -1,27 +1,46 @@
 # Main Lineman Module
 module Lineman
   class CommHelper
-    def initialize
+    def initialize(sender)
       @messages = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", 'messages.yml')))
+      @messages = @messages.to_hash
+      @sender = sender
+    end
+
+    def menu_parse(input)
+      output = @messages[input]['Message']
+      @sender.puts output
+    end
+
+    def receive(input)
+      input = input.strip
+      if input.size == 1
+        menu_parse(input)
+      elsif input.size > 1
+        send(input)
+      else
+        @sender.puts @messages['Error'] + "\n"
+      end
     end
     
     def send(what)
       output = ""
       case what
-        when "menu"
+        when "Main Menu"
           output += @messages['Select'] + "\n"
-          @messages['Menu'].sort.each do |key, value|
+          @messages['Main Menu'].sort.each do |key, value|
             output += value + "\n"
           end
-        when "welcome"
+        when "Welcome"
           output = @messages['Welcome'] + "\n"
           @messages['Intro'].each do |value|
             output += value + "\n"
           end
         else
-          output = "Danger Will Robinson!"
+          output = @messages['Error'] + "\n"
       end
-      return output
+      @sender.puts output
     end
+    
   end
 end
