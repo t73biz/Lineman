@@ -9,8 +9,13 @@ module Lineman
       output = ""
       case what
         when "menu"
-          output += @messages['Welcome'] + "\n" + @messages['Select'] + "\n"
+          output += @messages['Select'] + "\n"
           @messages['Menu'].sort.each do |key, value|
+            output += value + "\n"
+          end
+        when "welcome"
+          output = @messages['Welcome'] + "\n"
+          @messages['Intro'].each do |value|
             output += value + "\n"
           end
         else

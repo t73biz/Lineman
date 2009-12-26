@@ -1,4 +1,10 @@
 Welcome: 'Welcome to Lineman'
+Intro:
+  - "Thanks for using Lineman. We're going to ask you a series of questions"
+  - "about your project, and then start the build process. Don't worry about"
+  - "getting a question wrong, or messing up. We try to collect all of the"
+  - "information up front, and then apply that to the project. So, sit back,"
+  - "relax, and enjoy the show!"
 Select: 'Select from the menu'
 Menu:
   D: 'D)atabase'

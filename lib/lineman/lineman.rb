@@ -11,6 +11,7 @@ module Lineman
     end
     
     def start
+      @messenger.puts @comm.send("welcome")
       @messenger.puts @comm.send("menu")
     end
   end
