@@ -21,21 +21,5 @@ module Lineman
         @lineman.start
       end
     end # Starting Up End
-
-    context "Selecting Menu" do
-      it "should recieve input" do
-        @input = "D\n"
-        @comm = CommHelper.new(@sender)
-        @comm.receive(@input)
-      end
-      
-      it "should send a response" do
-        @input = "D\n"
-        @comm = CommHelper.new(@sender)
-        @comm.receive(@input)
-        @sender.should_match("Database Menu\n")
-      end
-      
-    end
   end
 end

@@ -7,7 +7,7 @@ module Lineman
   class Core
     def initialize(sender)
       @sender = sender
-      @comm = CommHelper.new(@sender)
+      @comm = Utilities::CommHelper.new(@sender)
     end
     
     def start

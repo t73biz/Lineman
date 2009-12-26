@@ -6,7 +6,7 @@ require 'utilities/comm_helper'
 sender = STDOUT
 lineman = Lineman::Core.new(sender)
 lineman.start
-comm = Lineman::CommHelper.new(sender)
+comm = Lineman::Utilities::CommHelper.new(sender)
 while input = gets
   comm.receive(input)
 end
