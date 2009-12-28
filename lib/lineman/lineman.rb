@@ -9,7 +9,7 @@ module Lineman
   VERSION = '1.0.1'
   class Core
     attr_reader :options
-    attr_accessor :args, :error, :receiver, :sender
+    attr_accessor :args, :error, :kernel, :receiver, :sender
 
     def initialize
       self.args = ARGV
@@ -17,10 +17,11 @@ module Lineman
       self.receiver = $stdin
       self.sender = $stdout
       # Set defaults
+      @kernel = Kernel
       @options = OpenStruct.new
       @options.verbose = false
       @options.quiet = false
-      @help = YAML.load(File.read(File.join(File.dirname(__FILE__), 'help.yml'))).to_hash
+      @help = YAML.load(File.read(File.join(File.dirname(__FILE__), 'locale/en/help.yml'))).to_hash
       @comm = Utilities::CommHelper.new(receiver, sender)
     end
 
@@ -49,7 +50,7 @@ module Lineman
       begin
         opts.parse!(@args)
       rescue OptionParser::InvalidOption
-        $stderr.puts %Q{Failed to parse options: #{@args}}
+        $stderr.puts "Failed to parse options: #{@args}"
         return false
       end
       process_options
@@ -62,8 +63,23 @@ module Lineman
     end
     
     def arguments_valid?
-      # TO DO - implement real logic here
-      true
+      arg = @args.last
+      # We check against nil arguments
+      if arg.nil?
+        return true
+      end
+      # Next we check against usage being passed as the argument
+      if arg.downcase == 'usage'
+        return false
+      end
+      # Next we check to see if our arg is a directory
+      if File.directory?(arg)
+        return false
+      end
+      # Finally, can our arg be a directory?
+      if  arg.include?("/") && Dir.open(arg.chomp(arg.split("/").last))
+        return true
+      end
     end
     
     # Setup the arguments
@@ -72,20 +88,24 @@ module Lineman
     
     def output_help
       @sender.puts @help['Cli']['Help']
+      @sender.puts @help['Cli']['Usage']
+      @kernel.exit
     end
     
     def output_usage
       @sender.puts @help['Cli']['Usage']
+      @kernel.exit
     end
     
     def output_version
-      @sender.puts "Lineman version #{VERSION}"
+      @sender.puts @help['Cli']['Version'] + " " + VERSION
+      @kernel.exit
     end
     
     def process_command
       @comm.send('Welcome')
       @comm.send('Main Menu')
-      input = @receiver.read
+      input = @receiver.gets
       @comm.receive(input)
     end
   end
