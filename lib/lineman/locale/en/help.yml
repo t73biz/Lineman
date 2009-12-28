@@ -1,0 +1,10 @@
+Cli:
+  Help:
+    - " "
+    - "-h --help      This help message"
+    - "-v --version   Display current version of lineman"
+    - "-V --verbose   Anyone for Spam! ?"
+    - "-q --quiet     Shhh! Don't wake the sleeping giants!"
+    - " "
+  Usage: "Usage: lineman /path/to/your/app [options]"
+  Version: "Lineman version"
