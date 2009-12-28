@@ -1,0 +1,3 @@
+Cli:
+  Help: "Displays help message"
+  Usage: "Usage: lineman [options] /path/to/your/app"

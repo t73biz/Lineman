@@ -5,19 +5,20 @@ module Lineman
     describe CommHelper do
     before(:each) do
         @sender = mock("sender").as_null_object
+        @receiver = mock("receiver").as_null_object
         @bad_input = %w{"d\n" "g\n" "Menu is cool\n" "p\n" "q\n"}
         @good_input = %w{"D\n" "G\n" "M\n" "P\n" "Q\n"}
-        @comm = CommHelper.new(@sender)
+        @comm = CommHelper.new(@receiver, @sender)
       end
       context "Selecting Menu" do
         it "should recieve input" do
           @good_input.each do |input|
-            @comm.receive(input)
+            @comm.menu_parse(input)
           end
         end
         it "should send a response" do
           @good_input.each do |input|
-            @comm.receive(input)
+            @comm.menu_parse(input)
           end
           @sender.should_not == nil
         end

@@ -2,24 +2,42 @@ require File.join(File.dirname(__FILE__), ".." ,"spec_helper" )
 
 module Lineman
   describe Core do
-    before(:each) do
-      @sender = mock("sender").as_null_object
-      @lineman = Core.new(@sender)
+    def test_args(args = '/home/ronald/work/myapp')
+      @args = []
+      @args[0] = args
+      return @args
     end
-    context "Starting Up" do
-      it "should start" do
-        @lineman.start
+    
+    def setup_spec
+      @error = StringIO.new
+      @receiver = StringIO.new
+      @sender = StringIO.new
+      @lineman = Core.new
+      @lineman.args = @args
+      @lineman.error = @error
+      @lineman.receiver = @receiver
+      @lineman.sender = @sender
+      @help = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", "..", 'lib/lineman/help.yml'))).to_hash
+    end
+
+    context "start" do
+      it "should check for parse options" do
+        test_args('-h')
+        setup_spec
+        @lineman.start.should be_true
       end
       
-      it "should send a welcome message" do
-        @sender.should_not == nil
-        @lineman.start
+      it "should check for validate arguments" do
+        test_args
+        setup_spec
+        @lineman.start.should be_true
       end
       
-      it "should send a menu with instructions" do
-        @sender.should_receive(:puts).with("Select from the menu\nD)atabase\nG)ems\nM)VC\nP)lugins\nQ)uit\n")
-        @lineman.start
+      it "should output usage if invalid arguments or options" do
+        test_args('-t')
+        setup_spec
+        @lineman.start.should be_false
       end
-    end # Starting Up End
+    end
   end
 end

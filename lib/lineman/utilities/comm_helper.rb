@@ -2,9 +2,10 @@
 module Lineman
   module Utilities
     class CommHelper
-      def initialize(sender)
+      def initialize(receiver, sender)
         @messages = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", 'messages.yml')))
         @messages = @messages.to_hash
+        @receiver = receiver
         @sender = sender
       end
 

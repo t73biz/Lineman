@@ -1,12 +1,6 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.push File.join(File.dirname(__FILE__),".." ,"lib/lineman" )
 require 'lineman'
-require 'utilities/comm_helper'
 
-sender = STDOUT
-lineman = Lineman::Core.new(sender)
+lineman = Lineman::Core.new(ARGV, STDIN, STDOUT)
 lineman.start
-comm = Lineman::Utilities::CommHelper.new(sender)
-while input = gets
-  comm.receive(input)
-end
