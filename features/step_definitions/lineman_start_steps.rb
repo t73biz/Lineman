@@ -4,15 +4,15 @@ Given /^I start the app with ([^\"]*)$/ do |arg|
   @args[0] = arg
   @mock_kernel = mock(Kernel)
   @mock_kernel.stub!(:exit)
-  @receiver = StringIO.new('D\n')
-  @sender = StringIO.new
+  @input_channel = StringIO.new('D\n')
+  @output_channel = StringIO.new
   @lineman = Lineman::Core.new
-  @lineman.receiver = @receiver
-  @lineman.sender = @sender
+  @lineman.input_channel = @input_channel
+  @lineman.output_channel = @output_channel
   @lineman.args = @args
   @lineman.kernel = @mock_kernel
-  @lineman.comm.receiver = @receiver
-  @lineman.comm.sender = @sender
+  @lineman.comm.input_channel = @input_channel
+  @lineman.comm.output_channel = @output_channel
 end
 
 Then /^lineman should fail$/ do

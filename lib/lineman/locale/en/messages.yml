@@ -2,16 +2,24 @@ Error: Danger Will Robinson!
 
 Intro: |
   ==============================================================================
-  Thanks for using Lineman. We are going to ask you a series of questions
+  Thanks for using Lineman. I am going to ask you a series of questions
   about your project, and then start the build process. Do not worry about
-  getting a question wrong, or messing up. We try to collect all of the
+  getting a question wrong, or messing up. I try to collect all of the
   information up front, and then apply that to the project. So, sit back,
   relax, and enjoy the show!
   ==============================================================================
 
 Parse Error:
   Message: 'Failed to parse:'
-  
+
+Project:
+  Name:
+    Confirm: I have determined that your project name is 
+  Path:
+    Request: |
+      You did not supply a working path for your project. Please enter one now, 
+      so that I can setup the enviroment correctly.
+    Confirm: I have determined that your project path is 
 Select: Select from the menu
 
 Valid:

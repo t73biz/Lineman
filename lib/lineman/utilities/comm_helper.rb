@@ -2,10 +2,10 @@
 module Lineman
   module Utilities
     class CommHelper
-      attr_accessor :help, :messages, :receiver, :sender
+      attr_accessor :help, :messages, :input_channel, :output_channel
       
       def help(input = 'Help')
-        @sender.puts @help['Cli'][input]
+        @output_channel.puts @help['Cli'][input]
       end
       
       def initialize
@@ -25,8 +25,8 @@ module Lineman
           value = value.to_a
           output += "#{count}) " + value[0][0] + "\n"
         end
-        send(output)
-        receive
+        output_to_channel(output)
+        input_from_channel
       end
       
       def parse_input(input)
@@ -40,16 +40,16 @@ module Lineman
         end
       end
 
-      def receive
-        input = @receiver.gets
+      def input_from_channel
+        input = @input_channel.gets
         if input != nil
           parse_input(input)
         else
-          send(@messages['Valid']['Message'] + "\n")
+          output_to_channel(@messages['Valid']['Message'] + "\n")
         end
       end
       
-      def send(input)
+      def output_to_channel(input)
         output = ''
         case input
           when "Main Menu"
@@ -60,7 +60,7 @@ module Lineman
           else
             output = input
         end
-        @sender.puts output
+        @output_channel.puts output
       end
 
     end

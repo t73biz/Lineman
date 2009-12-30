@@ -9,30 +9,34 @@ module Lineman
   VERSION = '1.0.1'
   class Core
     attr_reader :options
-    attr_accessor :args, :comm, :error, :kernel, :receiver, :sender
+    attr_accessor :args, :comm, :error, :kernel, :input_channel, :output_channel, :options, :project
 
     def initialize
       self.args = ARGV
       self.error = $stderr
-      self.receiver = $stdin
-      self.sender = $stdout
+      self.input_channel = $stdin
+      self.output_channel = $stdout
       # Set defaults
       @kernel = Kernel
       @options = OpenStruct.new
       @options.verbose = false
       @options.quiet = false
+      @options.help = false
+      @project = OpenStruct.new
+      @project.path = ""
+      @project.name = ""
       @comm = Utilities::CommHelper.new
-      @comm.receiver = receiver
-      @comm.sender = sender
+      @comm.input_channel = input_channel
+      @comm.output_channel = output_channel
     end
 
 
     def start
       if parsed_options? && arguments_valid?
-        process_arguments
-        @comm.send('Welcome')
-        @comm.send('Main Menu')
-        @comm.receive
+        process_project_path
+        @comm.output_to_channel('Welcome')
+        @comm.output_to_channel('Main Menu')
+        @comm.input_from_channel
         true
       else
         @comm.help('Usage')
@@ -51,14 +55,14 @@ module Lineman
       # Specify options
       opts = OptionParser.new
       opts.banner = @comm.help('Usage')
-      opts.on('-v', '--version')    { output_version }
-      opts.on('-h', '--help')       { output_help }
+      opts.on('-v', '--version')    { @options.help = true; output_version }
+      opts.on('-h', '--help')       { @options.help = true; output_help }
       opts.on('-V', '--verbose')    { @options.verbose = true }  
       opts.on('-q', '--quiet')      { @options.quiet = true }
       begin
         opts.parse!(@args)
       rescue OptionParser::InvalidOption
-        @comm.send(@comm.messages['Parse Error']['Message'] + " #{@args}")
+        @comm.output_to_channel(@comm.messages['Parse Error']['Message'] + " #{@args}")
         return false
       end
       process_options
@@ -74,7 +78,7 @@ module Lineman
       arg = @args.last
       # We check against nil arguments
       if arg.nil?
-        return true
+        return @options.help
       end
       # Next we check against usage being passed as the argument
       if arg.downcase == 'usage'
@@ -92,13 +96,17 @@ module Lineman
     
     # Setup the arguments
     # At this point we can assume that we do not have an active directory
-    def process_arguments
-      
+    def process_project_path
+      if @args != nil && @options.help == false
+        @project.path = @args.to_s
+        @project.name = @args.to_s.split("/").last.tr("_", " ").capitalize
+        @comm.output_to_channel(@comm.messages['Project']['Path']['Confirm'] + " " + @project.path)
+        @comm.output_to_channel(" " + @comm.messages['Project']['Name']['Confirm'] + " " + @project.name)
+      end
     end
     
     def output_help
       @comm.help
-      @comm.help('Usage')
       @kernel.exit
     end
     

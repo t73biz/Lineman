@@ -10,6 +10,17 @@
   * Incorporate UI Design during BDD
   * Develop using BDD
   
-1.01
+1.1
   * Develop framework for commandline arguments and their parsing
+  
+1.1.1
+  * Adjust testing to fix rcov gaps in Lineman::Core.arguments_valid? lines{77..78}
+  * Adjust testing to fix rcov gaps in Lineman::CommHelper.menu_parse lines{16..20}
+  * Adjust testing to fix rcov gaps in Lineman::CommHelper.receive    lines{26..31}
+  * Adjust testing to fix rcov gaps in Lineman::CommHelper.send       lines{46..48}
+  * Adjust all output from Lineman::core to route through Linemann::CommHelper
+  * Fix Lineman::Core.process_arguments
+  * Restructure menu implementation
 
+1.2
+  * Implement Database Subsection
