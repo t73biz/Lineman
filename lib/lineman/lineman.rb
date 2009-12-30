@@ -9,7 +9,7 @@ module Lineman
   VERSION = '1.0.1'
   class Core
     attr_reader :options
-    attr_accessor :args, :error, :kernel, :receiver, :sender
+    attr_accessor :args, :comm, :error, :kernel, :receiver, :sender
 
     def initialize
       self.args = ARGV
@@ -21,20 +21,28 @@ module Lineman
       @options = OpenStruct.new
       @options.verbose = false
       @options.quiet = false
-      @help = YAML.load(File.read(File.join(File.dirname(__FILE__), 'locale/en/help.yml'))).to_hash
-      @comm = Utilities::CommHelper.new(receiver, sender)
+      @comm = Utilities::CommHelper.new
+      @comm.receiver = receiver
+      @comm.sender = sender
     end
 
 
     def start
       if parsed_options? && arguments_valid?
         process_arguments
-        process_command
+        @comm.send('Welcome')
+        @comm.send('Main Menu')
+        @comm.receive
         true
       else
-        output_usage
+        @comm.help('Usage')
+        @kernel.exit
         false
       end
+    end
+
+    def quit
+      @kernel.exit
     end
 
     protected
@@ -42,7 +50,7 @@ module Lineman
     def parsed_options?
       # Specify options
       opts = OptionParser.new
-      opts.banner = @help['Cli']['Usage']
+      opts.banner = @comm.help('Usage')
       opts.on('-v', '--version')    { output_version }
       opts.on('-h', '--help')       { output_help }
       opts.on('-V', '--verbose')    { @options.verbose = true }  
@@ -50,7 +58,7 @@ module Lineman
       begin
         opts.parse!(@args)
       rescue OptionParser::InvalidOption
-        $stderr.puts "Failed to parse options: #{@args}"
+        @comm.send(@comm.messages['Parse Error']['Message'] + " #{@args}")
         return false
       end
       process_options
@@ -83,30 +91,21 @@ module Lineman
     end
     
     # Setup the arguments
+    # At this point we can assume that we do not have an active directory
     def process_arguments
+      
     end
     
     def output_help
-      @sender.puts @help['Cli']['Help']
-      @sender.puts @help['Cli']['Usage']
-      @kernel.exit
-    end
-    
-    def output_usage
-      @sender.puts @help['Cli']['Usage']
+      @comm.help
+      @comm.help('Usage')
       @kernel.exit
     end
     
     def output_version
-      @sender.puts @help['Cli']['Version'] + " " + VERSION
+      @comm.help('Version')
       @kernel.exit
     end
     
-    def process_command
-      @comm.send('Welcome')
-      @comm.send('Main Menu')
-      input = @receiver.gets
-      @comm.receive(input)
-    end
   end
 end

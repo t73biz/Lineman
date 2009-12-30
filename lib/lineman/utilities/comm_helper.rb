@@ -2,53 +2,67 @@
 module Lineman
   module Utilities
     class CommHelper
-      def initialize(receiver, sender)
-        @messages = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", 'locale/en/messages.yml')))
-        @messages = @messages.to_hash
-        @receiver = receiver
-        @sender = sender
+      attr_accessor :help, :messages, :receiver, :sender
+      
+      def help(input = 'Help')
+        @sender.puts @help['Cli'][input]
+      end
+      
+      def initialize
+        @help         = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", 'locale/en/help.yml'))).to_hash
+        @messages     = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", 'locale/en/messages.yml'))).to_hash
+        @menus        = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", 'locale/en/menus.yml'))).to_hash
+        @current_menu = 'Main'
+        @data         = ''
       end
 
-      def menu_parse(input)
-        begin
-          output = @messages[input]['Message']
-          @sender.puts output
-        rescue Exception => e
-          @sender.puts "Please Enter a Valid Selection"
-          send("Main Menu")
+      def build_menu(input)
+        @current_menu = input
+        count = 0
+        output = @menus[input]['Title'] + "\n"
+        @menus[input]['Display'].each do |value|
+          count = count + 1
+          value = value.to_a
+          output += "#{count}) " + value[0][0] + "\n"
+        end
+        send(output)
+        receive
+      end
+      
+      def parse_input(input)
+        method_array = @menus[@current_menu]['Display'][input.to_i - 1].to_a
+        method_array.each do |key, value|
+          if value['data']
+            method(value['method'].to_sym).call(value['data'])
+          else
+            method(value['method'].to_sym)
+          end
         end
       end
 
-      def receive(input)
-        input = input.strip
-        if input.size == 1
-          menu_parse(input)
-        elsif input.size > 1
-          send(input)
+      def receive
+        input = @receiver.gets
+        if input != nil
+          parse_input(input)
         else
-          @sender.puts @messages['Error'] + "\n"
+          send(@messages['Valid']['Message'] + "\n")
         end
       end
       
-      def send(what)
-        output = ""
-        case what
+      def send(input)
+        output = ''
+        case input
           when "Main Menu"
-            output += @messages['Select'] + "\n"
-            @messages['Main Menu'].sort.each do |key, value|
-              output += value + "\n"
-            end
+            build_menu('Main')
           when "Welcome"
-            output = @messages['Welcome'] + "\n"
-            @messages['Intro'].each do |value|
-              output += value + "\n"
-            end
+            output << @messages['Welcome'] << "\n"
+            output << @messages['Intro'] << "\n"
           else
-            output = @messages['Error'] + "\n"
+            output = input
         end
         @sender.puts output
       end
-      
+
     end
   end
 end

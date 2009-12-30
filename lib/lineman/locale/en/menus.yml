@@ -1,0 +1,53 @@
+Main:
+  Display:
+    - Database:
+        method: build_menu
+        data: 'Database'
+    - Extensions:
+        method: build_menu
+        data: 'Extensions'
+    - MVC:
+        method: build_menu
+        data: 'MVC'
+    - Quit:
+        method: exit
+  Title: 'Main Menu'
+
+Database:
+  Display:
+    - Configure:
+        method: build_menu
+        data: 'Main'
+    - Display:
+        method: build_menu
+        data: 'Main'
+    - Main Menu:
+        method: build_menu
+        data: 'Main'
+  Title: "Database Menu"
+
+Extensions:
+  Display:
+    - Configure:
+        method: build_menu
+        data: 'Main'
+    - Display:
+        method: build_menu
+        data: 'Main'
+    - Main Menu:
+        method: build_menu
+        data: 'Main'
+  Title: "Extensions Menu"
+
+MVC:
+  Display:
+    - Configure:
+        method: build_menu
+        data: 'Main'
+    - Display:
+        method: build_menu
+        data: 'Main'
+    - Main Menu:
+        method: build_menu
+        data: 'Main'
+  Title: "MVC Menu"

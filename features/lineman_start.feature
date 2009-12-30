@@ -11,6 +11,7 @@ Feature: To be able to load Lineman
   Scenarios: Start
     | args                      | expect     |
     | /home/ronald/work/yourapp | should_not |
+    | /home/ronald/work/myapp   | should     |
     | -t                        | should     |
     | -h                        | should_not |
     | --help                    | should_not |

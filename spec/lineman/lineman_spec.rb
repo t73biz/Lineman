@@ -10,7 +10,7 @@ module Lineman
     
     def setup_spec
       @error = StringIO.new
-      @receiver = StringIO.new('D\n')
+      @receiver = StringIO.new('1')
       @sender = StringIO.new
       @mock_kernel = mock(Kernel)
       @mock_kernel.stub!(:exit)
@@ -20,10 +20,8 @@ module Lineman
       @lineman.receiver = @receiver
       @lineman.sender = @sender
       @lineman.kernel = @mock_kernel
-      @help = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", "..", 'lib/lineman/locale/en/help.yml'))).to_hash
-    end
-
-    before(:each) do
+      @lineman.comm.receiver = @receiver
+      @lineman.comm.sender = @sender
     end
 
     context "start" do
